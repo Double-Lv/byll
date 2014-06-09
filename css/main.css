@@ -1,0 +1,60 @@
+body{
+	margin: 0;
+}
+.container{
+	width: 1000px;
+	position: relative;
+	margin: 0 auto;
+}
+header{
+	text-align: center;
+}
+header h1{
+	display: inline-block;
+}
+section{
+	text-align: center;
+}
+.ctlpanel, .previewpanel{
+	display: inline-block;
+	vertical-align: top;
+	width: 45%;
+}
+.ctlpanel, .convertpanel{
+	position: relative;
+	text-align: center;
+}
+.ctlpanel img{
+	max-width: 100%;
+	display: block;
+	margin: 0 auto;
+}
+.ctlpanel .insertbtn{
+	position: absolute;
+	display: inline-block;
+	top: 0;	
+}
+.paneltitle{
+	text-align: left;
+}
+.customtext{
+	position: absolute;
+	display: block;
+	top: 20px;
+	width: 96%;
+	border-radius: 10px;
+	left: 2%;
+	background-color: rgba(255, 255, 255, 0.6);
+	font-family: "微软雅黑";
+	font-size: 20px;
+	font-weight: 600;
+	color: #FFF;
+	text-shadow:0 0 3px #000;
+	-webkit-text-shadow:0 0 3px #000;
+}
+.convertpanel{
+	
+}
+.convertpanel .customtext{
+	background: none;
+}
