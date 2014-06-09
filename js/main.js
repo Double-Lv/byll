@@ -33,20 +33,23 @@ $(function(){
 		    });
 		 
 		},
-		convert : function(id, targetImg){
-		    html2canvas( document.getElementById(id) , {
+		convert : function(el, targetImg){
+		    html2canvas(el, {
 		      onrendered: function(canvas) {
+		      	
 		        var dataUrl = canvas.toDataURL("image/png");
-		        targetImg.attr('src', dataUrl);
-		        /*$.ajax({
-		            url : 'convert.php',
+
+		        $.ajax({
+		            url : './php/convert.php',
 		            type : 'POST',
-		            data : {image : dataUrl2},
+		            data : {image : dataUrl},
 		            success : function(data){
-		                console.log(data);
-		                document.getElementById('img2').src = data;
+		                var phase = $(el).closest('.phase');
+				        phase.find('.downbtn').attr('href', data).attr('download', data.split('\/').pop());
+				        phase.find('.previewimg').attr('src', data)
+				        phase.find('.downloadpanel').show();
 		            }
-		        });*/
+		        });
 
 		        
 		      }
@@ -54,21 +57,20 @@ $(function(){
 		}
 	}
 
-
-
-
-
-	var scope = $('#byll_1');
-	
-	$('.insertbtn', scope).on('click', function(){
-		var text = $('<p class="customtext" contenteditable>今天我和朋友</p>')
-		$('.targetarea', scope).append(text);
+	var container = $('.container');
+	container.on('click', '.insertbtn', function(){
+		var ctl = $(this).closest('.ctlpanel');
+		var text = $('<p class="customtext" contenteditable>输入你的创意吧...</p>');
+		var lastTextTop = parseInt($('.customtext', ctl).last().css('top')) || 0;
+		text.css('top', (lastTextTop+20)+'px').appendTo('.targetarea', ctl).focus();
 		util.draggable(text);
 	});
 
-	$('.generatebtn', scope).on('click', function(){
-		$('.convertpanel', scope).html($('.targetarea', scope).html());
-		util.convert('byll_img_1', $('.previewimg', scope));
+	container.on('click', '.generatebtn', function(){
+		var phase = $(this).closest('.phase');
+		var cvt = $('.convertpanel', phase);
+		cvt.html($('.targetarea', phase).html());
+		util.convert(cvt[0], $('.previewimg', phase));
 	});
 
 });
