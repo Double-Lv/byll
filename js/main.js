@@ -33,6 +33,16 @@ $(function(){
 		    });
 		 
 		},
+		initDragresize : function(){
+			var dragresize = new DragResize('dragresize',{ minWidth: 50, minHeight: 50, minLeft: 0, minTop: 0, allowBlur:false });
+			dragresize.isElement = function(elm){
+				if ($(elm).hasClass('customtext') || $(elm).hasClass('custombuble')) return true;
+			};
+			dragresize.isHandle = function(elm){
+				if ($(elm).hasClass('customtext') || $(elm).hasClass('custombuble')) return true;
+			};
+			dragresize.apply(document);
+		},
 		convert : function(el, targetImg){
 		    html2canvas(el, {
 		      onrendered: function(canvas) {
@@ -57,13 +67,14 @@ $(function(){
 		}
 	}
 
+	util.initDragresize();
+
 	var container = $('.container');
 	container.on('click', '.insertbtn', function(){
 		var ctl = $(this).closest('.ctlpanel');
-		var text = $('<p class="customtext" contenteditable>输入你的创意吧...</p>');
+		var text = $('<div class="customtext"><div contenteditable>输入你的创意吧...</div></div>');
 		var lastTextTop = parseInt($('.customtext', ctl).last().css('top')) || 0;
-		text.css('top', (lastTextTop+20)+'px').appendTo('.targetarea', ctl).focus();
-		util.draggable(text);
+		text.css({top : (lastTextTop+20)+'px', left : '20px'}).appendTo('.targetarea', ctl).focus();
 	});
 
 	container.on('click', '.generatebtn', function(){
@@ -71,6 +82,18 @@ $(function(){
 		var cvt = $('.convertpanel', phase);
 		cvt.html($('.targetarea', phase).html());
 		util.convert(cvt[0], $('.previewimg', phase));
+	});
+
+	container.on('click', '.insertbublebtn', function(){
+		var ctl = $(this).closest('.ctlpanel');
+		console.log(ctl);
+		var text = $('<div class="custombuble"><img class="bgimg" src="img/talk1.png" /><div class="textdiv" contenteditable></div></div>');
+		var lastTextTop = parseInt($('.custombuble', ctl).last().css('top')) || 0;
+		text.css({top : (lastTextTop+20)+'px', left : '20px'}).appendTo(ctl.find('.targetarea')).focus();
+	});
+
+	container.on('mousedown', '.textdiv', function(event){
+		//event.stopPropagation();
 	});
 
 });
